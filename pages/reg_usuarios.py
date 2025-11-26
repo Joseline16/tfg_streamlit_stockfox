@@ -1,10 +1,9 @@
 import streamlit as st
 import pandas as pd
 import psycopg2
-from baseDatos.conexion import get_connection
+from database.conexion import get_connection
 
 st.set_page_config(layout="wide") 
-
 
 
 # Ocultar navegación
@@ -44,10 +43,7 @@ if st.session_state["rol"] != "administrador":
     st.error("No tienes permisos para ver esta página.")
     st.stop()
 
-
-# ---------------------------------------
-# CONSULTA DE USUARIOS
-# ---------------------------------------
+#Consilta de usuarios 
 def obtener_usuarios(offset, limit, filtro_campo=None, filtro_valor=None, orden="ASC"):
 
     CAMPOS_VALIDOS = ["nombre_usuario", "email", "rol", "telefono"]
@@ -93,9 +89,7 @@ def obtener_usuarios(offset, limit, filtro_campo=None, filtro_valor=None, orden=
         return pd.DataFrame()
 
 
-# ---------------------------------------
-# INSERTAR USUARIO
-# ---------------------------------------
+#insertar nuevo usuario
 def insertar_usuario(nombre, email, rol, telegram, telefono, password):
     try:
         conn = get_connection()
@@ -112,16 +106,14 @@ def insertar_usuario(nombre, email, rol, telegram, telefono, password):
         st.error(f"Error al registrar usuario: {e}")
 
 
-# ---------------------------------------
-# MAIN PAGE
-# ---------------------------------------
+#Main
 def main():
     st.title("Usuarios")
 
     st.session_state.setdefault("page", 1)
     st.session_state.setdefault("open_modal", False)
 
-    # ---------------- FILTROS AUTOMÁTICOS ----------------
+    #  FILTROS AUTOMÁTICOS 
     col1, col2, col3 = st.columns([2, 2, 1])
 
     with col1:
@@ -139,11 +131,11 @@ def main():
 
     st.markdown("---")
 
-    # ---------------- BOTÓN NUEVO ----------------
+    # BOTÓN NUEVO 
     if st.button("Nuevo"):
         st.session_state.open_modal = True
 
-    # ---------------- MODAL ----------------
+    # - MODAL para nuevo usuario, ventana que aparece
     if st.session_state.open_modal:
 
         with st.form("nuevo_usuario", border=True):
@@ -174,7 +166,7 @@ def main():
 
         st.stop()
 
-    # ---------------- TABLA ----------------
+    # tabla
     limit = 10
     offset = (st.session_state.page - 1) * limit
 
@@ -191,7 +183,7 @@ def main():
     else:
         st.dataframe(df, use_container_width=True, hide_index=True)
 
-    # ---------------- PAGINACIÓN ----------------
+    # paginacion
     left, _, right = st.columns([1, 3, 1])
 
     with left:

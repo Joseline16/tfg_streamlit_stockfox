@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from baseDatos.conexion import get_connection
+from database.conexion import get_connection
 
 
 # Ocultar navegación automática de Streamlit
@@ -108,7 +108,7 @@ def actualizar_producto(idp, nombre, categoria, marca, stock, stock_min, precio,
 
 
 # ---------------------------------------------------
-# Función: Eliminar producto (lógico)
+# Función: Eliminar producto 
 # ---------------------------------------------------
 def eliminar_producto(idp):
     conn = get_connection()
@@ -122,7 +122,6 @@ def eliminar_producto(idp):
         return True
     except Exception as e:
         return f"Error al eliminar: {e}"
-
 
 
 # ---------------------------------------------------
@@ -148,7 +147,6 @@ def modal_nuevo_producto():
             st.error(r)
 
 
-
 # ---------------------------------------------------
 # DIALOG: Editar producto
 # ---------------------------------------------------
@@ -163,8 +161,6 @@ def modal_modificar_producto(row):
     stock_min = st.number_input("Stock mínimo", value=int(row["stock_minimo"]))
     precio = st.number_input("Precio unitario", value=float(row["precio_unitario"]))
     
-
-    # Nuevo campo ESTADO
     estado = st.selectbox(
         "Estado",
         ["activo", "inactivo"],
@@ -177,8 +173,6 @@ def modal_modificar_producto(row):
             st.rerun()
         else:
             st.error(r)
-
-
 
 # ---------------------------------------------------
 # Main
@@ -206,7 +200,7 @@ def main():
         df = df[df[campo].str.contains(valor, case=False, na=False)]
 
     # =====================================================
-    # ===  ORDENAMIENTO   =================================
+    #Ordenar
     # =====================================================
     opciones = {
         "Nombre A-Z": ("nombre_producto", True),
@@ -226,7 +220,7 @@ def main():
         cantidad = st.selectbox("Mostrar:", [5, 10, 20, 50])
 
     # =====================================================
-    # ===  PAGINACION =====================================
+    # Paginación
     # =====================================================
     total = len(df)
     paginas = (total - 1) // cantidad + 1
@@ -254,7 +248,7 @@ def main():
     df_page = df.iloc[ini:fin]
 
     # =====================================================
-    # ===  SELECCIÓN DE FILA ==============================
+    # seleccionar fila 
     # =====================================================
     st.subheader("Productos")
 
@@ -272,7 +266,7 @@ def main():
         row = df_page.iloc[row_index]
 
     # =====================================================
-    # ===  BOTONES CRUD ===================================
+    #Operaciones crud 
     # =====================================================
     st.divider()
     col_add, col_edit, col_del = st.columns(3)

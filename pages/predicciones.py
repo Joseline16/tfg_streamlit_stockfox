@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from baseDatos.conexion import get_connection
+from database.conexion import get_connection
 
 st.set_page_config(page_title="Predicciones", layout="wide")
 

@@ -1,4 +1,4 @@
-from baseDatos.conexion import get_connection
+from database.conexion import get_connection
 import psycopg2.extras
 
 def verificar_credenciales(email, password):

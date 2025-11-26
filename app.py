@@ -1,5 +1,5 @@
 import streamlit as st
-from servicios.auxiliares import verificar_credenciales
+from services.auxiliares import verificar_credenciales
 
 def load_css(file_name):
     with open(file_name) as f:
@@ -7,7 +7,7 @@ def load_css(file_name):
 
 st.set_page_config(page_title="StockFox", page_icon="🦊")
 
-# ⛔ Ocultar sidebar mientras NO haya sesión
+#Ocultamos el sidebar 
 if "logueado" not in st.session_state or not st.session_state["logueado"]:
     st.markdown("""
     <style>
@@ -16,7 +16,7 @@ if "logueado" not in st.session_state or not st.session_state["logueado"]:
     </style>
     """, unsafe_allow_html=True)
 
-# Ocultar navegación automática de Streamlit
+# Ocultamos navegación automática de Streamlit
 st.markdown("""
 <style>
 [data-testid="stSidebarNav"] {
@@ -26,7 +26,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# Inputs blancos
+# Forzamos el cambio de color de los Inputs a blancos
 st.markdown(""" 
 <style>
 .stTextInput > div > div > input {

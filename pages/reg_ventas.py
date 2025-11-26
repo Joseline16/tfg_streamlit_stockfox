@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import date
-from baseDatos.conexion import get_connection
+from database.conexion import get_connection
 
 if "id_usuario" not in st.session_state:
     st.error("Error interno: falta id_usuario en la sesión.")
@@ -57,7 +57,6 @@ def obtener_ventas(f_inicio=None, f_fin=None, codigo=None, producto=None):
     conn.close()
 
     return pd.DataFrame(rows, columns=cols)
-
 
 
 # ---------------------------------------------------
