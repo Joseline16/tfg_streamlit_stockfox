@@ -1,9 +1,9 @@
-streamlit
+statsmodels
 pandas
 numpy
 matplotlib
 plotly
-prophet
 scikit-learn
 psycopg2-binary
 python-dotenv
+streamlit
