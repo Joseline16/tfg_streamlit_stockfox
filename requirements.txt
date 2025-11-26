@@ -1,6 +1,10 @@
 streamlit
 pandas
-prophet
 numpy
 matplotlib
+plotly
+prophet
 scikit-learn
+pysqlite3-binary
+psycopg2-binary
+python-dotenv
