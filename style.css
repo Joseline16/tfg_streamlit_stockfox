@@ -1,0 +1,15 @@
+/* ===== BOTÓN SUBMIT DENTRO DE FORM ===== */
+div.stFormSubmitButton > button {
+    background-color: #D97A22 !important;  /* Naranja */
+    color: white !important;
+    border-radius: 8px !important;
+    border: none !important;
+    padding: 0.6em 1.2em !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+}
+
+div.stFormSubmitButton > button:hover {
+    background-color: #B86315 !important; /* Naranja oscuro */
+    color: white !important;
+}
