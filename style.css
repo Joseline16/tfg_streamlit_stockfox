@@ -1,4 +1,4 @@
-/* ===== BOTÓN SUBMIT DENTRO DE FORM ===== */
+/*cambiamos el color de los botones*/
 div.stFormSubmitButton > button {
     background-color: #D97A22 !important;  /* Naranja */
     color: white !important;

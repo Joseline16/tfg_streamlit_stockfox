@@ -7,10 +7,37 @@ if "id_usuario" not in st.session_state:
     st.error("Error interno: falta id_usuario en la sesión.")
     st.stop()
 
+    
+st.markdown("""
+<style>
+[data-testid="stSidebarNav"] {
+    display: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
-# ---------------------------------------------------
-# Función: Obtener ventas
-# ---------------------------------------------------
+rol = st.session_state.get("rol", "")
+
+with st.sidebar:
+    st.markdown("""
+        <h2 style='color:#FF6A00;'>🦊 StockFox</h2>
+        <hr>
+    """, unsafe_allow_html=True)
+
+    st.page_link("pages/pagina_principal.py", label="🏠 Inicio")
+    st.page_link("pages/predicciones.py", label="📊 Predicciones")
+    st.page_link("pages/reg_productos.py", label="📦 Productos")
+
+    if rol == "administrador":
+        st.page_link("pages/reg_usuarios.py", label="👤 Gestión de Usuarios")
+
+    st.page_link("pages/reg_ventas.py", label="💰 Ventas")
+    st.write("---")
+    st.page_link("app.py", label="🚪 Cerrar Sesión")
+
+
+
+#Obtener las ventas
 def obtener_ventas(f_inicio=None, f_fin=None, codigo=None, producto=None):
     conn = get_connection()
     cur = conn.cursor()
@@ -59,9 +86,7 @@ def obtener_ventas(f_inicio=None, f_fin=None, codigo=None, producto=None):
     return pd.DataFrame(rows, columns=cols)
 
 
-# ---------------------------------------------------
-# Función: Registrar venta
-# ---------------------------------------------------
+#Registrar una venta
 def registrar_venta(id_usuario, codigo_venta, id_producto, cantidad, fecha_venta):
     conn = get_connection()
     try:
@@ -84,9 +109,7 @@ def registrar_venta(id_usuario, codigo_venta, id_producto, cantidad, fecha_venta
         return f"Error al registrar venta: {e}"
 
 
-# ---------------------------------------------------
-# DIALOG: Registrar venta
-# ---------------------------------------------------
+#Ventana emergente de registro de venta
 @st.dialog("Registrar nueva venta")
 def modal_registrar_venta():
 
@@ -154,39 +177,6 @@ def modal_registrar_venta():
             st.error(r)
 
 
-
-# ---------------------------------------------------
-# Página principal
-# ---------------------------------------------------
-
-st.markdown("""
-<style>
-[data-testid="stSidebarNav"] {
-    display: none !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
-rol = st.session_state.get("rol", "")
-
-with st.sidebar:
-    st.markdown("""
-        <h2 style='color:#FF6A00;'>🦊 StockFox</h2>
-        <hr>
-    """, unsafe_allow_html=True)
-
-    st.page_link("pages/pagina_principal.py", label="🏠 Inicio")
-    st.page_link("pages/predicciones.py", label="📊 Predicciones")
-    st.page_link("pages/reg_productos.py", label="📦 Productos")
-
-    if rol == "administrador":
-        st.page_link("pages/reg_usuarios.py", label="👤 Gestión de Usuarios")
-
-    st.page_link("pages/reg_ventas.py", label="💰 Ventas")
-    st.write("---")
-    st.page_link("app.py", label="🚪 Cerrar Sesión")
-
-
 st.title("💰 Registro de Ventas")
 
 col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
@@ -211,17 +201,14 @@ if st.button("🔄 Limpiar"):
     st.session_state["pagina_ventas"] = 1
     st.rerun()
 
-# --- BOTÓN NUEVO ---
+# Boton nuevo
 if st.button("➕ Nuevo"):
     modal_registrar_venta()
 
-
-# --- OBTENER VENTAS ---
+# Obtener ventas
 df = obtener_ventas(f_inicio, f_fin, codigo, producto)
 
-# ---------------------------
-# PAGINACIÓN
-# ---------------------------
+#Paginacion 
 if "pagina_ventas" not in st.session_state:
     st.session_state.pagina_ventas = 1
 
@@ -234,15 +221,11 @@ fin = inicio + filas_por_pagina
 
 df_pagina = df.iloc[inicio:fin]
 
-# ---------------------------
-# TABLA
-# ---------------------------
+#Tabla
 st.write(f"### 📋 Lista de ventas registradas (Página {st.session_state.pagina_ventas} / {total_paginas})")
 st.dataframe(df_pagina, use_container_width=True, hide_index=True)
 
-# ---------------------------
-# BOTONES DE PAGINACIÓN
-# ---------------------------
+#Botones de paginacion
 colPrev, colNext = st.columns([1, 1])
 
 with colPrev:

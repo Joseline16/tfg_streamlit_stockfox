@@ -35,9 +35,7 @@ with st.sidebar:
     st.write("---")
     st.page_link("app.py", label="🚪 Cerrar Sesión")
 
-# ---------------------------------------------------
-# Función: Obtener productos
-# ---------------------------------------------------
+#Obtener productos 
 def obtener_productos():
     conn = get_connection()
     if not conn:
@@ -63,9 +61,7 @@ def obtener_productos():
 
 
 
-# ---------------------------------------------------
-# Función: Insertar producto
-# ---------------------------------------------------
+#Insertar nuevos productos 
 def insertar_producto(nombre, categoria, marca, stock, stock_min, precio):
     conn = get_connection()
     try:
@@ -84,9 +80,7 @@ def insertar_producto(nombre, categoria, marca, stock, stock_min, precio):
 
 
 
-# ---------------------------------------------------
-# Función: Actualizar producto
-# ---------------------------------------------------
+#Actualizar productos
 def actualizar_producto(idp, nombre, categoria, marca, stock, stock_min, precio,estado):
     conn = get_connection()
     try:
@@ -106,10 +100,7 @@ def actualizar_producto(idp, nombre, categoria, marca, stock, stock_min, precio,
         return f"Error al actualizar: {e}"
 
 
-
-# ---------------------------------------------------
-# Función: Eliminar producto 
-# ---------------------------------------------------
+#Eliminar productos
 def eliminar_producto(idp):
     conn = get_connection()
     try:
@@ -147,9 +138,7 @@ def modal_nuevo_producto():
             st.error(r)
 
 
-# ---------------------------------------------------
-# DIALOG: Editar producto
-# ---------------------------------------------------
+#Ventana modificar producto 
 @st.dialog("Modificar producto")
 def modal_modificar_producto(row):
     st.write("Actualizar información del producto:")
@@ -186,9 +175,7 @@ def main():
         st.info("No hay productos disponibles.")
         return
 
-    # =====================================================
-    # ===  FILTROS  =======================================
-    # =====================================================
+#Filtros
     col1, col2 = st.columns(2)
 
     with col1:
@@ -199,9 +186,7 @@ def main():
     if valor:
         df = df[df[campo].str.contains(valor, case=False, na=False)]
 
-    # =====================================================
-    #Ordenar
-    # =====================================================
+#Ordenar ascendente o descendente 
     opciones = {
         "Nombre A-Z": ("nombre_producto", True),
         "Nombre Z-A": ("nombre_producto", False),
@@ -219,9 +204,7 @@ def main():
     with col4:
         cantidad = st.selectbox("Mostrar:", [5, 10, 20, 50])
 
-    # =====================================================
-    # Paginación
-    # =====================================================
+ #Paginacion de productos 
     total = len(df)
     paginas = (total - 1) // cantidad + 1
 
@@ -265,9 +248,7 @@ def main():
         row_index = selected["selection"]["rows"][0]
         row = df_page.iloc[row_index]
 
-    # =====================================================
-    #Operaciones crud 
-    # =====================================================
+#operaciones crud 
     st.divider()
     col_add, col_edit, col_del = st.columns(3)
 
@@ -287,7 +268,6 @@ def main():
                 st.rerun()
             else:
                 st.error(r)
-
 
 
 
