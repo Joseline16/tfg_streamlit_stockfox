@@ -1,13 +1,13 @@
 FROM python:3.10-slim
 
-# Instalar dependencias del sistema que Prophet necesita
 RUN apt-get update && apt-get install -y \
     build-essential \
     gcc \
     python3-dev \
     libgomp1 \
-    libatlas-base-dev \
+    libatlas3-base \
     liblapack-dev \
+    libblas-dev \
     libstdc++6 \
     git \
     && apt-get clean \
