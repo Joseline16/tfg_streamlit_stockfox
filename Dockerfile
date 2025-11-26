@@ -1,5 +1,6 @@
 FROM python:3.10-slim
 
+# Instalar dependencias del sistema necesarias para Prophet, numpy, scipy y psycopg2
 RUN apt-get update && apt-get install -y \
     build-essential \
     gcc \
@@ -8,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     libatlas3-base \
     liblapack-dev \
     libblas-dev \
-    libstdc++6 \
+    libpq-dev \
     git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -18,6 +19,7 @@ WORKDIR /app
 COPY requirements.txt .
 
 RUN pip install --upgrade pip
+RUN pip install --no-cache-dir Cython numpy
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
