@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestRegressor
 import psycopg2
 from database.conexion import get_connection
 from datetime import datetime, timedelta
-
+import plotly.express as px
 
 st.set_page_config(page_title="Predicciones", layout="wide")
 
@@ -185,6 +185,20 @@ if categoria_seleccionada:
         if df_pred.empty:
             st.error("No hay suficientes datos históricos para generar predicciones.")
             st.stop()
+        st.subheader("📉 Ventas históricas por producto")
+
+        fig_hist = px.line(
+            df_ventas,
+            x="mes",
+            y="total_vendido",
+            color="id_producto",
+            markers=True,
+            title="Ventas mensuales por producto"
+)
+
+        st.plotly_chart(fig_hist, use_container_width=True)   
+
+            
 
         # Mostrar predicciones por producto
         st.subheader("📊 Predicciones por producto")
